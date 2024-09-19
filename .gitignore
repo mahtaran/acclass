@@ -1,0 +1,16 @@
+# Based on https://github.com/github/gitignore
+
+# Gradle
+.gradle/
+.kotlin/
+
+## Build files
+build/
+
+# Android Studio
+captures/
+.externalNativeBuild/
+.cxx/
+
+## Configuration files
+local.properties

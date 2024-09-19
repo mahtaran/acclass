@@ -1,0 +1,13 @@
+# Based on https://github.com/github/gitignore
+
+# JetBrains
+caches/
+
+## Generated
+androidTestResultsUserPreferences.xml
+modules.xml
+modules/
+
+## User-specific
+workspace.xml
+shelf/
