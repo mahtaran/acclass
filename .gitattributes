@@ -24,6 +24,7 @@
 
 # Data
 *.json                        text
+*.model						  binary
 *.pro                         text
 *.properties                  text
 *.toml                        text
