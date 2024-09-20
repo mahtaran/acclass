@@ -186,8 +186,10 @@ fun Visualisation(
 					CurrentLocationRequest.Builder().setDurationMillis(
 						PREDICTION_INTERVAL.inWholeMilliseconds
 					).build(), null
-				).addOnSuccessListener {
-					viewModel.predictActivity(LatLng(it.latitude, it.longitude))
+				).addOnSuccessListener { location ->
+					location?.let {
+						viewModel.predictActivity(LatLng(location.latitude, location.longitude))
+					}
 				}
 				delay(PREDICTION_INTERVAL)
 			}

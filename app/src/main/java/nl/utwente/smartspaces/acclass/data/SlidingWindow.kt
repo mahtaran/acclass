@@ -1,9 +1,13 @@
 package nl.utwente.smartspaces.acclass.data
 
+import kotlin.time.TimeSource
+
 typealias MonoTriple<T> = Triple<T, T, T>
 
 class SlidingWindow(private val size: Int) {
 	private val window: MutableList<MonoTriple<Double>> = ArrayList(size)
+	private val timeSource = TimeSource.Monotonic
+	private var lastUpdate = timeSource.markNow()
 
 	val average: MonoTriple<Double>
 		get() = MonoTriple(
@@ -13,10 +17,16 @@ class SlidingWindow(private val size: Int) {
 		)
 
 	fun add(value: MonoTriple<Double>): SlidingWindow {
+		if (lastUpdate + MEASURE_INTERVAL > timeSource.markNow()) {
+			// Short circuit
+			return this
+		}
+
 		if (window.size == size) {
 			window.removeAt(0)
 		}
 		window.add(value)
+		lastUpdate = timeSource.markNow()
 
 		return this
 	}
