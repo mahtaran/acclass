@@ -2,6 +2,7 @@ package nl.utwente.smartspaces.acclass.ui
 
 import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -177,14 +178,19 @@ fun Visualisation(
 
 	LaunchedEffect(Unit) {
 		while (true) {
-			locationClient.getCurrentLocation(
-				CurrentLocationRequest.Builder().setDurationMillis(
-					PREDICTION_INTERVAL.inWholeMilliseconds
-				).build(), null
-			).addOnSuccessListener {
-				viewModel.predictActivity(LatLng(it.latitude, it.longitude))
+			if (
+				context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+				== PackageManager.PERMISSION_GRANTED
+			) {
+				locationClient.getCurrentLocation(
+					CurrentLocationRequest.Builder().setDurationMillis(
+						PREDICTION_INTERVAL.inWholeMilliseconds
+					).build(), null
+				).addOnSuccessListener {
+					viewModel.predictActivity(LatLng(it.latitude, it.longitude))
+				}
+				delay(PREDICTION_INTERVAL)
 			}
-			delay(PREDICTION_INTERVAL)
 		}
 	}
 
